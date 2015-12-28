@@ -198,7 +198,7 @@ class MandatePdf extends Entity
      */
     public function getMandateReference()
     {
-        return $this->mark_reference;
+        return $this->mandate_reference;
     }
 
     /**
@@ -208,7 +208,7 @@ class MandatePdf extends Entity
      */
     public function setMandateReference($mandate_reference)
     {
-        $this->mark_reference = $mandate_reference;
+        $this->mandate_reference = $mandate_reference;
 
         return $this;
     }
@@ -218,7 +218,7 @@ class MandatePdf extends Entity
      */
     public function getScheme()
     {
-        return $this->get_scheme;
+        return $this->scheme;
     }
 
     /**
