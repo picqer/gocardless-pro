@@ -17,7 +17,6 @@ use GoCardless\Pro\Models\Payment;
 use GoCardless\Pro\Models\RedirectFlow;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
-use Psr\Http\Message\StreamInterface;
 
 class Api
 {

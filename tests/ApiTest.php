@@ -8,8 +8,9 @@ use GoCardless\Pro\Models\CustomerBankAccount;
 use GoCardless\Pro\Models\Mandate;
 use GoCardless\Pro\Models\Payment;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
 
-class ApiTest extends \PHPUnit_Framework_TestCase
+class ApiTest extends TestCase
 {
     use Fixtures;
 
@@ -492,7 +493,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
     {
         $config = require __DIR__ . '/../config.php';
 
-        if ( ! array_key_exists('readOnlyAccessToken', $config)) {
+        if ( ! array_key_exists('readOnlyAccessToken', $config) || empty($config['readOnlyAccessToken'])) {
             $this->markTestSkipped('You must set a read only token in the $config[readOnlyAccessToken] to run this test');
         }
 
