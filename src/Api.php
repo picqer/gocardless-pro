@@ -15,6 +15,7 @@ use GoCardless\Pro\Models\Mandate;
 use GoCardless\Pro\Models\MandatePdf;
 use GoCardless\Pro\Models\Payment;
 use GoCardless\Pro\Models\RedirectFlow;
+use GoCardless\Pro\Models\Refund;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 
@@ -26,6 +27,7 @@ class Api
     const CUSTOMER_BANK_ACCOUNTS = 'customer_bank_accounts';
     const MANDATES               = 'mandates';
     const PAYMENTS               = 'payments';
+    const REFUNDS                = 'refunds';
     const REDIRECT_FLOWS         = 'redirect_flows';
     const MANDATE_PDFS           = 'mandate_pdfs';
     const BANK_DETAILS_LOOKUPS   = 'bank_details_lookups';
@@ -518,6 +520,48 @@ class Api
         $timezone   = new \DateTimeZone('UTC');
 
         return \DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $date, $timezone);
+    }
+
+    /**
+     * @see https://developer.gocardless.com/pro/#refunds-create-a-refund
+     *
+     * @param Refund $refund
+     *
+     * @return Refund
+     */
+    public function createRefund(Refund $refund)
+    {
+        $response = $this->post(self::REFUNDS, $refund->toArray());
+
+        return Refund::fromArray($response);
+    }
+
+    /**
+     * @see https://developer.gocardless.com/pro/#refunds-get-a-single-refund
+     *
+     * @param $id
+     *
+     * @return Refund
+     */
+    public function getRefund($id)
+    {
+        $response = $this->get(self::REFUNDS, [], $id);
+
+        return Refund::fromArray($response);
+    }
+
+    /**
+     * @see https://developer.gocardless.com/pro/#payments-list-payments
+     *
+     * @param array $options
+     *
+     * @return Payment[]
+     */
+    public function listPayments(array $options = [])
+    {
+        $response = $this->get(self::PAYMENTS, $options);
+
+        return $this->buildCollection(new Payment, $response);
     }
 
     /**
