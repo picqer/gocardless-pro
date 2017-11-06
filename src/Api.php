@@ -699,9 +699,14 @@ class Api
      * @throws InvalidDocumentStructureException
      * @throws ResourceNotFoundException
      * @throws VersionNotFoundException
+     * @throws \Exception
      */
     private function handleInvalidApiUsage(BadResponseException $ex, array $response)
     {
+        if (! isset($response['error']['errors'][0]['reason'])) {
+            throw new \Exception('Could not parse error, error: ' . json_encode($response));
+        }
+
         switch ($response['error']['errors'][0]['reason']) {
             case 'resource_not_found' :
                 throw new ResourceNotFoundException(
