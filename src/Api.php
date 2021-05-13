@@ -578,7 +578,7 @@ class Api
      *
      * @throws ValidationException
      */
-    private function send($method, $endpoint, $data = [], $path)
+    private function send($method, $endpoint, $data = [], $path = null)
     {
         try {
             $payload = $data ? [$endpoint => $data] : null;
