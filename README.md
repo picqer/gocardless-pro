@@ -1,67 +1,19 @@
-# Overview
+# GoCardless Pro API PHP Client
 
-## Work In Progress
+This library is based on the wonderful work of [Sneek](https://github.com/Sneek/gocardless-pro)
 
-This package is in very early development and lots of things may change! 
-Please explore the source and test cases to get a clearer understanding. Also
- make sure you sign up to GoCardless Pro and read their documentation.
- 
-> Take a look in the examples folder to get started 
+This fork includes work from @fyfey for Mandate PDF's and our own improvements.
 
 ## Installation
 
-The recommended way to install GoCardless Pro is with `Composer <http://getcomposer.org>`_. Composer is a dependency
-management tool for PHP that allows you to declare the dependencies your project needs and installs them into your
-project.
+The recommended way to install GoCardless Pro is with [Composer](http://getcomposer.org).
 
 ```bash
-# Install Composer
-curl -sS https://getcomposer.org/installer | php
+composer require picqer/gocardless-pro
 ```
 
-You can add GoCardless Pro as a dependency using the composer.phar CLI:
-
-```bash
-php composer.phar require sneek/gocardless-pro:@stable
-```
-
-Alternatively, you can specify GoCardless Pro as a dependency in your project's
-existing composer.json file:
-
-```javascript
-{
-  "require": {
-     "sneek/gocardless-pro": "@stable"
-  }
-}
-```
-
-After installing, you need to require Composer's autoloader:
-
-```php
-require 'vendor/autoload.php';
-```
-
-You can find out more on how to install Composer, configure autoloading, and
-other best-practices for defining dependencies at [getcomposer.org]
-(http://getcomposer.org).
-
-## Bleeding edge
-
-
-During your development, you can keep up with the latest changes on the master
-branch by setting the version requirement for GoCardless Pro to ``@dev``.
-
-```javascript
-{
-  "require": {
-     "sneek/gocardless-pro": "@dev"
-  }
-}
-```
 
 ## License
-
 
 Licensed using the [MIT license](http://opensource.org/licenses/MIT).
 
@@ -84,30 +36,3 @@ Licensed using the [MIT license](http://opensource.org/licenses/MIT).
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
-
-## Contributing
-
-### Guidelines
-
-1. GoCardless Pro follows PSR-0, PSR-1, and PSR-2.
-2. All pull requests must have an open issue to reference the bug / change
-3. All pull requests must include unit tests to ensure the change works as
-   expected and to prevent regressions.
-
-### Running the tests
-
-In order to contribute, you'll need to checkout the source from GitHub and
-install GoCardless Pro's dependencies using Composer:
-
-```
-git clone https://github.com/sneek/gocardless-pro.git
-cd guzzle && curl -s http://getcomposer.org/installer | php && ./composer.phar install --dev
-```
-
-GoCardless Pro is unit tested with PHPUnit. You will need to setup a
-GoCardless account and configure the API keys so you can authenticate. Run
-the tests using the vendored PHPUnit binary:
-
-```
-vendor/bin/phpunit
-```

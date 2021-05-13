@@ -4,7 +4,6 @@ namespace GoCardless\Pro\Models;
 
 use GoCardless\Pro\Models\Abstracts\Entity;
 use GoCardless\Pro\Models\Traits\Factory;
-use GoCardless\Pro\Models\Traits\Metadata;
 
 /**
  * Redirect flow entity
@@ -100,17 +99,43 @@ class RedirectFlow extends Entity
     }
 
     /**
-     * Set the success redirect URL
-     *
-     * @param string $successRedirectUrl Url to redirect user to after completion
+     * Set to use the bacs scheme for the resulting mandate
      *
      * @return $this
      */
-    public function setSuccessRedirectUrl($successRedirectUrl)
+    public function useBacs()
     {
-        $this->success_redirect_url = $successRedirectUrl;
+        return $this->setScheme('bacs');
+    }
 
-        return $this;
+    /**
+     * Set to use the sepa core scheme for the resulting mandate
+     *
+     * @return $this
+     */
+    public function useSepaCore()
+    {
+        return $this->setScheme('sepa_core');
+    }
+
+    /**
+     * Is the scheme bacs?
+     *
+     * @return bool
+     */
+    public function isBacs()
+    {
+        return $this->getScheme() === 'bacs';
+    }
+
+    /**
+     * Gets the Direct Debit scheme
+     *
+     * @return string
+     */
+    public function getScheme()
+    {
+        return $this->scheme;
     }
 
     /**
@@ -125,46 +150,6 @@ class RedirectFlow extends Entity
         $this->scheme = $scheme;
 
         return $this;
-    }
-
-    /**
-     * Set to use the bacs scheme for the resulting mandate
-     *
-     * @return Mandate
-     */
-    public function useBacs()
-    {
-        return $this->setScheme('bacs');
-    }
-
-    /**
-     * Set to use the sepa core scheme for the resulting mandate
-     *
-     * @return Mandate
-     */
-    public function useSepaCore()
-    {
-        return $this->setScheme('sepa_core');
-    }
-
-    /**
-     * Gets the Direct Debit scheme
-     *
-     * @return string
-     */
-    public function getScheme()
-    {
-        return $this->scheme;
-    }
-
-    /**
-     * Is the scheme bacs?
-     *
-     * @return bool
-     */
-    public function isBacs()
-    {
-        return $this->getScheme() === 'bacs';
     }
 
     /**
@@ -205,6 +190,20 @@ class RedirectFlow extends Entity
     public function getSuccessRedirectUrl()
     {
         return $this->success_redirect_url;
+    }
+
+    /**
+     * Set the success redirect URL
+     *
+     * @param string $successRedirectUrl Url to redirect user to after completion
+     *
+     * @return $this
+     */
+    public function setSuccessRedirectUrl($successRedirectUrl)
+    {
+        $this->success_redirect_url = $successRedirectUrl;
+
+        return $this;
     }
 
     /**

@@ -8,8 +8,9 @@ use GoCardless\Pro\Models\CustomerBankAccount;
 use GoCardless\Pro\Models\Mandate;
 use GoCardless\Pro\Models\Payment;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
 
-class ApiTest extends \PHPUnit_Framework_TestCase
+class ApiTest extends TestCase
 {
     use Fixtures;
 
@@ -369,7 +370,36 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         return $new;
     }
 
-    /** @depends test_it_can_get_a_single_payment */
+    function test_it_returns_a_list_of_payments()
+    {
+        $payments = $this->api->listPayments();
+
+        $this->assertInternalType('array', $payments);
+        foreach ($payments as $payment) {
+            $this->assertInstanceOf('GoCardless\Pro\Models\Payment', $payment);
+        }
+    }
+
+    function test_it_can_create_a_refund()
+    {
+        $this->guardAgainstInvalidPaymentToRefund();
+
+        $config = require __DIR__ . '/../config.php';
+
+        $payment = $this->api->getPayment($config['paymentToRefund']);
+        $refund = (new Refund())->of($payment)->returning($payment->getAmount())->totalling($payment->getAmount());
+
+        $refund = $this->api->createRefund($refund);
+
+        $this->assertInstanceOf('GoCardless\Pro\Models\Refund', $refund);
+        $this->assertNotNull($refund->getId());
+        $this->assertNotNull($refund->getCreatedAt());
+        $this->assertSame($payment->getAmount(), $refund->getAmount());
+        $this->assertSame('GBP', $refund->getCurrency());
+    }
+
+
+/** @depends test_it_can_get_a_single_payment */
     function test_it_can_cancel_payments(Payment $payment)
     {
         $payment = $this->api->cancelPayment($payment->getId());
@@ -492,7 +522,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
     {
         $config = require __DIR__ . '/../config.php';
 
-        if ( ! array_key_exists('readOnlyAccessToken', $config)) {
+        if ( ! array_key_exists('readOnlyAccessToken', $config) || empty($config['readOnlyAccessToken'])) {
             $this->markTestSkipped('You must set a read only token in the $config[readOnlyAccessToken] to run this test');
         }
 
@@ -544,4 +574,20 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Skipping test due to lack of mandates in system. This test requires at least 5.');
         }
     }
+
+    private function guardAgainstInvalidPaymentToRefund()
+    {
+        $config = require __DIR__ . '/../config.php';
+
+        if ( ! isset($config['paymentToRefund']) or $config['paymentToRefund'] == '') {
+            $this->markTestSkipped('Skipping test due to [paymentToRefund] was not set in the config');
+        }
+
+        $payment = $this->api->getPayment($config['paymentToRefund']);
+
+        if ( ! $payment->isConfirmed() or ! $payment->isPaidOut()) {
+            $this->markTestSkipped('Skipping test due to payment status is not confirmed or paid_out');
+        }
+    }
+
 }

@@ -1,21 +1,25 @@
 {
-    "name": "sneek/gocardless-pro",
-    "description": "A client for the GoCardless Pro API",
+    "name": "picqer/gocardless-pro",
+    "description": "A PHP client for the GoCardless Pro API",
     "keywords": ["GoCardless", "GoCardless Pro", "Direct Debit"],
     "license": "MIT",
-    "homepage": "https://github.com/Sneek/gocardless-pro",
+    "homepage": "https://github.com/picqer/gocardless-pro",
     "authors": [
         {
             "name": "Cristian Giordano",
             "email": "developers@sneekdigital.co.uk"
+        },
+        {
+            "name": "Stephan Groen",
+            "email": "info@picqer.com"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.0",
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {
